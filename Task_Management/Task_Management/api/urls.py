@@ -15,15 +15,30 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-
 from django.urls import path
 from . import views
+from .views import TaskStatusUpdate
+#from .views import TaskListView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     path('tasks/', views.TaskManagerListCreate.as_view(), name='create_task'),
     path('user/', views.UserListcreate.as_view(), name='add_user'),
-    path('tasks/<int:username>/', views.TaskManagerDetailsUpdate.as_view(),name='retrieve_update_delete'),
-]
+    path('tasks/<int:id>/', views.TaskManagerDetailsUpdate.as_view(),name='retrieve_update_delete'),
+    path('user/<int:id>/', views.UserDetailsUpdate.as_view(), name='retrieve_update_delete'),
+    path('tasks/<int:id>/status/', TaskStatusUpdate.as_view(), name='task-status-update'),
+    #path('tasks/', TaskListView.as_view(), name='task-list'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # Login
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # Refresh token
+
+
+]  
+
+
+    
+
+
+
 
 
 
